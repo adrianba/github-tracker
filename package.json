@@ -1,0 +1,27 @@
+{
+  "name": "github-tracker",
+  "version": "0.0.1",
+  "main": "app.js",
+  "scripts": {
+    "build": "node_modules/.bin/webpack.cmd",
+    "watch": "node_modules/.bin/webpack.cmd -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianba/github-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrianba/github-tracker/issues"
+  },
+  "homepage": "https://github.com/adrianba/github-tracker#readme",
+  "devDependencies": {
+    "babel-core": "^6.7.7",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "html-webpack-plugin": "^2.16.0",
+    "webpack": "^1.13.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
