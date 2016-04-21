@@ -1,2 +1,5 @@
 node_modules
-public
+public/index.html
+public/index_bundle.js
+db.json
+run.cmd
