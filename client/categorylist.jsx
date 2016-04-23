@@ -16,6 +16,7 @@ var CategoryList = React.createClass({
 				onChangeCategory={(category) => this.changeCategory(issue.number,category)}
 				onUpdateNotes={(notes) => this.updateNotes(issue.number,notes)}
 			/>);
+		if(list.length===0) return null;
 		var listStyle = { display: this.state.open ? "block" : "none"};
 		var title = <h3>
 			<Button bsSize="xsmall" bsStyle="primary" disabled={list.length===0} onClick={ ()=> this.setState({ open: !this.state.open }) } aria-label="Expand">
