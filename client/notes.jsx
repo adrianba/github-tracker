@@ -30,8 +30,7 @@ var Notes = React.createClass({
 		var notes = this.state.notes;
 		var text;
 		if(this.state.editing) {
-			var style = {minHeight:"300px"};
-			text = <textarea ref="editor" style={style} value={notes} className="form-control" onChange={this.handleChange} />
+			text = <textarea ref="editor" style={{minHeight:"300px"}} value={notes} className="form-control" onChange={this.handleChange} />
 		} else {
 			text = <Well bsSize="small" dangerouslySetInnerHTML={this.rawMarkdown(notes ? notes : "_no notes_")} />
 		}

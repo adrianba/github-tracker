@@ -41,10 +41,10 @@ var TheApp = React.createClass({
 		});
 	},
 	changeIssueCategory: function(issueNumber,category) {
-		this.setIssueState(issueNumber, {category:category});
+		this.setIssueState(issueNumber, {category});
 	},
 	changeIssueNotes: function(issueNumber,notes) {
-		this.setIssueState(issueNumber, {notes:notes});
+		this.setIssueState(issueNumber, {notes});
 	}
 });
 ReactDOM.render(<TheApp />, document.getElementById('app'));

@@ -14,10 +14,10 @@ var CategoryPicker = React.createClass({
 			<DropdownButton bsSize="small" title={category} id={'category'+this.props.id} onSelect={(key)=>this.updateCategory(key)}>{options}</DropdownButton>
 		);
 	},
-	updateCategory: function(key) {
-		this.setState({category:key});
+	updateCategory: function(category) {
+		this.setState({category});
 		if(this.props.onPick) {
-			this.props.onPick(key);
+			this.props.onPick(category);
 		}
 	}
 });
