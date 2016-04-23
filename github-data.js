@@ -3,6 +3,7 @@
 var GitHubApi = require("github4");
 var low = require('lowdb');
 var storage = require('lowdb/file-async');
+var azureStorage = require('./lowdb-azurestorage');
 var NodeCache = require('node-cache');
 
 function GitHubData(config) {
@@ -19,7 +20,7 @@ function GitHubData(config) {
 		checkPeriod: 10
 	});
 
-	var _db = low(__dirname + '/db.json', { storage });
+	var _db = config.useAzure ? low(__dirname + '/db.json', {storage: azureStorage}) : low(__dirname + '/db.json', { storage });
 
 	// var issue = _db("issues").chain().find({issue:"x/x#1"}).assign({});
 	// _db("issues").push(issue).then()
