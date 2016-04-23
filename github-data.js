@@ -20,8 +20,6 @@ function GitHubData(config) {
 	});
 
 	var _db = low(__dirname + '/db.json', { storage });
-	const _githubUser = 'w3c';
-	const _githubRepo = 'browser-payment-api';
 
 	// var issue = _db("issues").chain().find({issue:"x/x#1"}).assign({});
 	// _db("issues").push(issue).then()
@@ -33,10 +31,10 @@ function GitHubData(config) {
 		});
 	}
 
-	this.getIssueData = function() {
-		return getIssues(_githubUser,_githubRepo).then(results => {
+	this.getIssueData = function(ghuser,ghrepo) {
+		return getIssues(ghuser,ghrepo).then(results => {
 			return results.map(issue => {
-				var idb = issueFromDatabase(issue.number).value();
+				var idb = issueFromDatabase(ghuser,ghrepo,issue.number).value();
 				issue.tracker = {};
 				issue.tracker.notes = idb && idb.notes ? idb.notes : "";
 				issue.tracker.category = idb && idb.category ? idb.category : "not set";
@@ -45,8 +43,8 @@ function GitHubData(config) {
 		});
 	};
 
-	this.setIssueData = function(number,data) {
-		var idb = issueFromDatabase(number);
+	this.setIssueData = function(ghuser,ghrepo,number,data) {
+		var idb = issueFromDatabase(ghuser,ghrepo,number);
 		if(idb.value()) {
 			if(data.category) {
 				idb.assign({category:data.category}).value();
@@ -55,7 +53,7 @@ function GitHubData(config) {
 				idb.assign({notes:data.notes}).value();
 			}
 		} else {
-			var item = {id:issueId(number)};
+			var item = {id:issueId(ghuser,ghrepo,number)};
 			if(data.category) {
 				item.category = data.category;
 			}
@@ -84,18 +82,18 @@ function GitHubData(config) {
 		});
 	}
 
-	function issueId(number) {
-		return _githubUser+'/'+_githubRepo+'#'+number;
+	function issueId(ghuser,ghrepo,number) {
+		return ghuser+'/'+ghrepo+'#'+number;
 	}
 
-	function issueFromDatabase(number) {
-		return _db("issues").chain().find({id:issueId(number)});
+	function issueFromDatabase(ghuser,ghrepo,number) {
+		return _db("issues").chain().find({id:issueId(ghuser,ghrepo,number)});
 	}
 
 
 	function downloadIssues(user,repo) {
 		return new Promise((resolve,reject) => {
-			_github.issues.getForRepo({user:user,repo:repo,per_page:1000,state:"open"},(err,result)=> {
+			_github.issues.getForRepo({user,repo,per_page:1000,state:"open"},(err,result)=> {
 				if(err) {
 					reject(err);
 				} else {

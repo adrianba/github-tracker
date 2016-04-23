@@ -8,53 +8,57 @@ if(process.env.TWITTER_ACCOUNTS) {
 var port = process.env.PORT || 1337;
 var config = {};
 if(process.env.GITHUB_TOKEN) {
-        config.githubToken = process.env.GITHUB_TOKEN;
+    config.githubToken = process.env.GITHUB_TOKEN;
 }
 
 var express = require('express');
 var bodyParser = require('body-parser');
 var githubData = require('./github-data')(config);
+var repoConfig = require('./repo.config.json');
 
 var app = express();
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
 
 app.use((req,res,next) => {
-	var user = req.headers['x-ms-client-principal-name'];
-	if(user) {
-		if(allowedAccounts.indexOf(user)<0) {
-			res.status(401).send("Access denied to: " + user);
-			return;
-		}
-		req.user = user;
+	var user = req.headers['x-ms-client-principal-name'] || "adrianba";
+	console.log(user);
+	if(allowedAccounts.indexOf(user)<0) {
+		res.status(401).send("Access denied to: " + user);
+		return;
 	}
+	req.user = user;
 	next();
 });
 
-app.get('/',
-	function(req, res) {
-		res.redirect('index.html');
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+
+app.get('/repos',
+	function(req,res) {
+		var repos = repoConfig
+			.filter(repo => repo.users.indexOf(req.user)>=0)
+			.map(repo => repo.repo);
+		res.json({repos,user:req.user});
 	});
 
-app.get('/issues',
+app.get('/issues/:ghuser/:ghrepo',
 	function(req, res) {
-		sendIssueData(req.user,res);
+		sendIssueData(req.params.ghuser,req.params.ghrepo,req.user,res);
 	});
 
-app.post('/issues/:issuenumber',
+app.post('/issues/:ghuser/:ghrepo/:issuenumber',
 	function(req, res) {
 		if(!req.is("application/json")) {
 			res.status(400).send("Invalid content type");
 			return;
 		}
-		githubData.setIssueData(req.params.issuenumber,req.body);
-		sendIssueData(req.user,res);
+		githubData.setIssueData(req.params.ghuser,req.params.ghrepo,req.params.issuenumber,req.body);
+		sendIssueData(req.params.ghuser,req.params.ghrepo,req.user,res);
 	});
 
 app.listen(port);
 
-function sendIssueData(user,res) {
-	githubData.getIssueData().then(data => {
+function sendIssueData(ghuser,ghrepo,user,res) {
+	githubData.getIssueData(ghuser,ghrepo).then(data => {
 		var response = { issues: data };
 		if(user) { response.user = user; }
 		res.json(response);

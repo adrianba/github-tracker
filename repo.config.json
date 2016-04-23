@@ -1,0 +1,10 @@
+[
+	{
+	"repo": "w3c/browser-payment-api",
+	"users": ["adrianba"]
+	},
+	{
+	"repo": "w3c/html",
+	"users": ["adrianba"]
+	}
+]

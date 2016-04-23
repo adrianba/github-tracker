@@ -11,13 +11,15 @@ var CategoryPicker = React.createClass({
 		var categories = ["not set","ready","close","high","medium","low"];
 		var options = categories.map(i => <MenuItem key={i} eventKey={i} active={i===category}>{i}</MenuItem>);
 		return (
-			<DropdownButton bsSize="small" title={category} id={'category'+this.props.id} onSelect={(key)=>this.updateCategory(key)}>{options}</DropdownButton>
+			<DropdownButton bsSize="small" title={category} id={'category'+this.props.id} onSelect={this.updateCategory}>{options}</DropdownButton>
 		);
 	},
 	updateCategory: function(category) {
-		this.setState({category});
-		if(this.props.onPick) {
-			this.props.onPick(category);
+		if(this.state.category!==category) {
+			this.setState({category});
+			if(this.props.onPick) {
+				this.props.onPick(category);
+			}
 		}
 	}
 });
