@@ -17,7 +17,6 @@ var CategoryList = React.createClass({
 				onUpdateNotes={(notes) => this.updateNotes(issue.number,notes)}
 			/>);
 		if(list.length===0) return null;
-		var listStyle = { display: this.state.open ? "block" : "none"};
 		var title = <h3>
 			<Button bsSize="xsmall" bsStyle="primary" disabled={list.length===0} onClick={ ()=> this.setState({ open: !this.state.open }) } aria-label="Expand">
 		        <span className={className}></span>
@@ -25,8 +24,8 @@ var CategoryList = React.createClass({
 			&nbsp;{category} ({list.length})</h3>;
 
 		return (
-			<Panel header={title} bsStyle="primary">
-	          <div style={listStyle}>{list}</div>
+			<Panel header={title} bsStyle="primary" className={this.state.open ? "show-body" : "hide-body"}>
+	          {list}
 			</Panel>
 		)
 	},
