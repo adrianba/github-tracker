@@ -1,9 +1,7 @@
 "use strict";
 
-var allowedAccounts = ["adrianba"];
-if(process.env.TWITTER_ACCOUNTS) {
-	allowedAccounts = JSON.parse(process.env.TWITTER_ACCOUNTS);
-}
+var repoList = process.env.TWITTER_ACCOUNTS || '[{"repo":"w3c/browser-payment-api","users":["adrianba"]},{"repo":"w3c/html","users":["adrianba"]}]';
+var repoConfig = JSON.parse(repoList);
 
 var port = process.env.PORT || 1337;
 var config = {};
@@ -14,14 +12,13 @@ if(process.env.GITHUB_TOKEN) {
 var express = require('express');
 var bodyParser = require('body-parser');
 var githubData = require('./github-data')(config);
-var repoConfig = require('./repo.config.json');
 
 var app = express();
 
 app.use((req,res,next) => {
 	var user = req.headers['x-ms-client-principal-name'] || "adrianba";
-	console.log(user);
-	if(allowedAccounts.indexOf(user)<0) {
+	var repos = repoConfig.filter(repo => repo.users.indexOf(user)>=0);
+	if(repos.length===0) {
 		res.status(401).send("Access denied to: " + user);
 		return;
 	}
