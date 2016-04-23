@@ -26,6 +26,7 @@ app.use((req,res,next) => {
 			res.status(401).send("Access denied to: " + user);
 			return;
 		}
+		req.user = user;
 	}
 	next();
 });
@@ -37,7 +38,7 @@ app.get('/',
 
 app.get('/issues',
 	function(req, res) {
-		sendIssueData(res);
+		sendIssueData(req.user,res);
 	});
 
 app.post('/issues/:issuenumber',
@@ -47,14 +48,16 @@ app.post('/issues/:issuenumber',
 			return;
 		}
 		githubData.setIssueData(req.params.issuenumber,req.body);
-		sendIssueData(res);
+		sendIssueData(req.user,res);
 	});
 
 app.listen(port);
 
-function sendIssueData(res) {
+function sendIssueData(user,res) {
 	githubData.getIssueData().then(data => {
-		res.json({ issues: data });
+		var response = { issues: data };
+		if(user) { response.user = user; }
+		res.json(response);
 	}).catch(err => {
 		console.error(err);
 		res.type('text/plain');

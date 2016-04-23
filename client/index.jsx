@@ -19,7 +19,8 @@ var TheApp = React.createClass({
 				onChangeIssueCategory={this.changeIssueCategory}
 				onChangeIssueNotes={this.changeIssueNotes}
 			/>);
-			return <div className="center-block" style={{maxWidth:"1024px"}}><h1>GitHub Issue Tracker</h1><hr/>{list}</div>;
+			var user = this.state.data.user ? <small>@{this.state.data.user}</small> : [];
+			return <div className="center-block" style={{maxWidth:"1024px"}}><h1>GitHub Issue Tracker {user}</h1><hr/>{list}</div>;
 		} else {
 			return (
 				<div>
