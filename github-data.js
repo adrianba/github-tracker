@@ -2,8 +2,7 @@
 
 var GitHubApi = require("github4");
 var low = require('lowdb');
-var storage = require('lowdb/file-async');
-var azureStorage = require('./lowdb-azurestorage');
+var storage = require('./lowdb-azurestorage');
 var NodeCache = require('node-cache');
 
 function GitHubData(config) {
@@ -20,7 +19,10 @@ function GitHubData(config) {
 		checkPeriod: 10
 	});
 
-	var _db = config.useAzure ? low(__dirname + '/db.json', {storage: azureStorage}) : low(__dirname + '/db.json', { storage });
+	var _db = null;
+	var _dbPromise = low('azure',{storage}).then(db => {
+		_db = db;
+	});
 
 	// var issue = _db("issues").chain().find({issue:"x/x#1"}).assign({});
 	// _db("issues").push(issue).then()
@@ -33,7 +35,7 @@ function GitHubData(config) {
 	}
 
 	this.getIssueData = function(ghuser,ghrepo) {
-		return getIssues(ghuser,ghrepo).then(results => {
+		return _dbPromise.then(() => getIssues(ghuser,ghrepo).then(results => {
 			return results.map(issue => {
 				var idb = issueFromDatabase(ghuser,ghrepo,issue.number).value();
 				issue.tracker = {};
@@ -41,28 +43,30 @@ function GitHubData(config) {
 				issue.tracker.category = idb && idb.category ? idb.category : "not set";
 				return issue;
 			});
-		});
+		})).catch(err => { throw err });
 	};
 
 	this.setIssueData = function(ghuser,ghrepo,number,data) {
-		var idb = issueFromDatabase(ghuser,ghrepo,number);
-		if(idb.value()) {
-			if(data.category) {
-				idb.assign({category:data.category}).value();
+		return _dbPromise.then(() => {
+			var idb = issueFromDatabase(ghuser,ghrepo,number);
+			if(idb.value()) {
+				if(data.category) {
+					idb.assign({category:data.category}).value();
+				}
+				if(data.notes) {
+					idb.assign({notes:data.notes}).value();
+				}
+			} else {
+				var item = {id:issueId(ghuser,ghrepo,number)};
+				if(data.category) {
+					item.category = data.category;
+				}
+				if(data.notes) {
+					item.notes = data.notes;
+				}
+				_db("issues").push(item);
 			}
-			if(data.notes) {
-				idb.assign({notes:data.notes}).value();
-			}
-		} else {
-			var item = {id:issueId(ghuser,ghrepo,number)};
-			if(data.category) {
-				item.category = data.category;
-			}
-			if(data.notes) {
-				item.notes = data.notes;
-			}
-			_db("issues").push(item);
-		}
+		}).catch(err => { throw err });
 	};
 
 	function getIssues(user,repo) {
