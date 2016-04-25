@@ -40,18 +40,18 @@ var TheApp = React.createClass({
 		this.downloadIssues(currentRepo);
 	},
 	downloadRepos: function() {
-		return axios.get("/repos").then(response => {
+		return axios.get("/repos"+"?"+Date.now().toString()).then(response => {
 			this.setState({repos:response.data.repos, user:response.data.user});
 		});
 	},
 	downloadIssues: function(currentRepo) {
-		axios.get("/issues/"+currentRepo).then(response => {
+		axios.get("/issues/"+currentRepo+"?"+Date.now().toString()).then(response => {
 			this.setState({issues:response.data.issues, user:response.data.user});
 		});
 	},
 	setIssueState: function(issueNumber,data) {
 		document.body.className = "wait-cursor";
-		axios.post("/issues/" + this.state.currentRepo + "/" + issueNumber,data).then(response => {
+		axios.post("/issues/" + this.state.currentRepo + "/" + issueNumber+"?"+Date.now().toString(),data).then(response => {
 			this.setState({issues:response.data.issues, user:response.data.user});
 			document.body.className = "";
 		});

@@ -11,6 +11,7 @@ if(process.env.GITHUB_TOKEN) {
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var cacheResponseDirective = require('express-cache-response-directive');
 var githubData = require('./github-data')(config);
 
 var app = express();
@@ -28,9 +29,11 @@ app.use((req,res,next) => {
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
+app.use(cacheResponseDirective());
 
 app.get('/repos',
 	function(req,res) {
+		res.cacheControl("no-cache");
 		var repos = repoConfig
 			.filter(repo => repo.users.indexOf(req.user)>=0)
 			.map(repo => repo.repo);
@@ -39,6 +42,7 @@ app.get('/repos',
 
 app.get('/issues/:ghuser/:ghrepo',
 	function(req, res) {
+		res.cacheControl("no-cache");
 		sendIssueData(req.params.ghuser,req.params.ghrepo,req.user,res);
 	});
 
@@ -48,6 +52,7 @@ app.post('/issues/:ghuser/:ghrepo/:issuenumber',
 			res.status(400).send("Invalid content type");
 			return;
 		}
+		res.cacheControl("no-cache");
 		githubData.setIssueData(req.params.ghuser,req.params.ghrepo,req.params.issuenumber,req.body);
 		sendIssueData(req.params.ghuser,req.params.ghrepo,req.user,res);
 	});
