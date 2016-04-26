@@ -13,6 +13,21 @@ var Issue = React.createClass({
 	getInitialState: function() {
 		return {open:false};
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		var oldIssue = this.props.issue;
+		var newIssue = nextProps.issue;
+
+		return this.state.open !== nextState.open
+			|| oldIssue.number !== newIssue.number
+			|| oldIssue.tracker.category !== newIssue.tracker.category
+			|| oldIssue.tracker.notes !== newIssue.tracker.category
+			|| oldIssue.title !== newIssue.title
+			|| oldIssue.body !== newIssue.body
+			|| oldIssue.html_url !== newIssue.html_url
+			|| oldIssue.pull_request !== newIssue.pull_request
+			|| oldIssue.comments !== newIssue.comments
+			|| oldIssue.labels.length !== newIssue.labels.length;
+	},
 	render: function() {
 		var issue = this.props.issue;
 		var labels = issue.labels.map(function(label) {
