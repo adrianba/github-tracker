@@ -2,7 +2,7 @@
 
 var GitHubApi = require("github4");
 var low = require('lowdb');
-var storage = require('./lowdb-azurestorage');
+var storage = (process.env.NODE_ENV === "production") ? require('./lowdb-azurestorage') : require('./lowdb-devstorage');
 var NodeCache = require('node-cache');
 
 function GitHubData(config) {

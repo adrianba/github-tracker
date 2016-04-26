@@ -4,7 +4,7 @@ var repoList = process.env.TWITTER_ACCOUNTS || '[{"repo":"w3c/browser-payment-ap
 var repoConfig = JSON.parse(repoList);
 
 var port = process.env.PORT || 1337;
-var config = { useAzure:process.env.NODE_ENV === "production" };
+var config = { };
 if(process.env.GITHUB_TOKEN) {
     config.githubToken = process.env.GITHUB_TOKEN;
 }
