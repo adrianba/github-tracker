@@ -6,6 +6,10 @@ var CategoryPicker = React.createClass({
 	getInitialState: function() {
 		return {category:this.props.category};
 	},
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return this.props.id !== nextProps.id
+			|| this.props.category !== nextProps.category;
+	},
 	render: function() {
 		var category = this.state.category;
 		var categories = ["not set","ready","close","high","medium","low"];

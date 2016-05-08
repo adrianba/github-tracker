@@ -3,6 +3,8 @@ var ReactDOM = require('react-dom');
 var RepoPicker = require('./repopicker.jsx');
 var CategoryList = require('./categorylist.jsx');
 var axios = require('axios');
+//var Perf = require('react-addons-perf');
+//window.Perf = Perf;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 var TheApp = React.createClass({
