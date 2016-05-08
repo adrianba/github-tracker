@@ -20,7 +20,7 @@ var Issue = React.createClass({
 		return this.state.open !== nextState.open
 			|| oldIssue.number !== newIssue.number
 			|| oldIssue.tracker.category !== newIssue.tracker.category
-			|| oldIssue.tracker.notes !== newIssue.tracker.category
+			|| oldIssue.tracker.notes !== newIssue.tracker.notes
 			|| oldIssue.title !== newIssue.title
 			|| oldIssue.body !== newIssue.body
 			|| oldIssue.html_url !== newIssue.html_url
