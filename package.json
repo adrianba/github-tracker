@@ -14,7 +14,7 @@
     "url": "https://github.com/adrianba/github-tracker/issues"
   },
   "engines": {
-    "node": ">=5.9.0"
+    "node": "5.10.1"
   },
   "homepage": "https://github.com/adrianba/github-tracker#readme",
   "devDependencies": {
