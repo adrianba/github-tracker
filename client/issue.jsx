@@ -1,31 +1,6 @@
 import React from 'react';
 import IssueTitle from './issuetitle.jsx';
-import Notes from './notes.jsx';
-import Collapse from 'react-bootstrap/lib/Collapse';
-import Panel from 'react-bootstrap/lib/Panel';
-import safeMarkdown from './safe-markdown.jsx';
-
-const LabelBadge = ({label}) => {
-	return (
-		<a href={label.url}><span className="badge" style={ {backgroundColor: '#'+label.color, marginRight: "10px", color:"black"} }>
-		  {label.name}
-		</span></a>
-	);
-};
-
-const LabelList = (labels) =>
-	labels.map(function(label) {
-		return <LabelBadge key={label.name} label={label} />;
-	});
-
-const IssueDetails = (props) =>
-	<Collapse in={props.open}>
-		<div className="panel panel-default" style={{marginBottom:"10px"}}><div className="panel-body">
-			<div>Opened by <a href={props.issue.user.html_url}>@{props.issue.user.login}</a></div>
-	    	<div dangerouslySetInnerHTML={safeMarkdown(props.issue.body)} />
-	    	<div>{LabelList(props.issue.labels)}</div>
-		</div></div>
-	</Collapse>;
+import IssueInfo from './issueinfo.jsx';
 
 export default class Issue extends React.Component {
 	constructor(...args) {
@@ -53,16 +28,11 @@ export default class Issue extends React.Component {
 	}
 
 	render() {
-		var issue = this.props.issue;
-		var title = <IssueTitle issue={issue} open={this.state.open}
-			onExpandCollapse={this.toggleOpen}
-			onChangeCategory={this.changeCategory} />;
 		return (
-			<Panel header={title} bsStyle="info" style={{marginBottom:"10px"}}>
-				<IssueDetails open={this.state.open} issue={issue} />
-		        <Notes notes={issue.tracker.notes} onUpdate={this.updateNotes} />
-			</Panel>
-		)
+			<IssueInfo issue={this.props.issue} open={this.state.open} onUpdateNotes={this.updateNotes}>
+				<IssueTitle issue={this.props.issue} open={this.state.open} onExpandCollapse={this.toggleOpen} onChangeCategory={this.changeCategory} />
+			</IssueInfo>
+		);
 	}
 
 	toggleOpen() {

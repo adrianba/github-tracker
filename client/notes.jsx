@@ -4,6 +4,18 @@ import Button from 'react-bootstrap/lib/Button';
 import Well from 'react-bootstrap/lib/Well';
 import safeMarkdown from './safe-markdown.jsx';
 
+const EditButton = ({onClick}) =>
+	<p>
+        <Button bsSize="small" aria-label="Edit" onClick={onClick}>
+          <span className="glyphicon glyphicon-pencil"></span>
+        </Button>
+		&nbsp;
+		<strong>Notes</strong>
+	</p>;
+
+const ReadNotes = ({notes}) =>
+	<Well bsSize="small" dangerouslySetInnerHTML={safeMarkdown(notes ? notes : "_no notes_")} />;
+
 export default class Notes extends React.Component {
 	constructor(...args) {
 		super(...args);
@@ -29,25 +41,10 @@ export default class Notes extends React.Component {
 	}
 
 	render() {
-		var notes = this.state.notes;
-		var text;
-		if(this.state.editing) {
-			text = <textarea ref="editor" style={{minHeight:"300px"}} value={notes} className="form-control" onChange={this.handleChange} />
-		} else {
-			text = <Well bsSize="small" dangerouslySetInnerHTML={safeMarkdown(notes ? notes : "_no notes_")} />
-		}
-
-		return (
-			<Well bsSize="small">
-				<p>
-			        <Button bsSize="small" aria-label="Edit" onClick={ this.toggleEditing }>
-			          <span className="glyphicon glyphicon-pencil"></span>
-			        </Button>
-					&nbsp;<strong>Notes</strong>
-				</p>
-				{text}
-			</Well>
-		);
+		var text = this.state.editing
+			? <textarea ref="editor" style={{minHeight:"300px"}} value={this.state.notes} className="form-control" onChange={this.handleChange} />
+			: <ReadNotes notes={this.state.notes} />;
+		return <Well bsSize="small"><EditButton onClick={this.toggleEditing} /> {text}</Well>;
 	}
 
 	handleChange(event) {
