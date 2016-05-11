@@ -1,18 +1,18 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Button = require('react-bootstrap/lib/Button');
-var Well = require('react-bootstrap/lib/Well');
-var marked = require('marked');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Button from 'react-bootstrap/lib/Button';
+import Well from 'react-bootstrap/lib/Well';
+import safeMarkdown from './safe-markdown.jsx';
 
-var Notes = React.createClass({
-	getInitialState: function() {
-		return {editing:false,notes:this.props.notes};
-	},
-	rawMarkdown: function(md) {
-		var rawMarkup = marked(md, {sanitize: true});
-		return { __html: rawMarkup };
-	},
-	toggleEditing: function() {
+export default class Notes extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.state = { editing:false, notes:this.props.notes };
+		this.toggleEditing = this.toggleEditing.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	toggleEditing() {
 		if(this.state.editing && this.props.onUpdate) {
 			var notes = this.state.notes;
 			if(notes!==this.props.notes) {
@@ -20,19 +20,21 @@ var Notes = React.createClass({
 			}
 		}
 		this.setState({ editing: !this.state.editing });
-	},
-	componentDidUpdate: function() {
+	}
+
+	componentDidUpdate() {
 		if(this.refs.editor) {
 	      	ReactDOM.findDOMNode(this.refs.editor).focus(); 
 		}
-	},
-	render: function() {
+	}
+
+	render() {
 		var notes = this.state.notes;
 		var text;
 		if(this.state.editing) {
 			text = <textarea ref="editor" style={{minHeight:"300px"}} value={notes} className="form-control" onChange={this.handleChange} />
 		} else {
-			text = <Well bsSize="small" dangerouslySetInnerHTML={this.rawMarkdown(notes ? notes : "_no notes_")} />
+			text = <Well bsSize="small" dangerouslySetInnerHTML={safeMarkdown(notes ? notes : "_no notes_")} />
 		}
 
 		return (
@@ -46,10 +48,9 @@ var Notes = React.createClass({
 				{text}
 			</Well>
 		);
-	},
-	handleChange: function(event) {
+	}
+
+	handleChange(event) {
 		this.setState({notes:event.target.value});
 	}
-});
-
-module.exports = Notes;
+};

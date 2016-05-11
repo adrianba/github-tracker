@@ -1,6 +1,6 @@
-var marked = require('marked');
+import marked from 'marked';
 
-module.exports = function(md) {
+export default (md) => {
 	var options = { sanitize: true };
 	var tokens = marked.lexer(md,options);
 	//TODO: turn @name and #issue into links

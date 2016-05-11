@@ -1,13 +1,17 @@
-var React = require('react');
-var Issue = require('./issue.jsx');
-var Button = require('react-bootstrap/lib/Button');
-var Panel = require('react-bootstrap/lib/Panel');
+import React from 'react';
+import Issue from './issue.jsx';
+import Button from 'react-bootstrap/lib/Button';
+import Panel from 'react-bootstrap/lib/Panel';
 
-var CategoryList = React.createClass({
-	getInitialState: function() {
-		return {open:true};
-	},
-	render: function() {
+export default class CategoryList extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.state = { open:true };
+		this.changeCategory = this.changeCategory.bind(this);
+		this.updateNotes = this.updateNotes.bind(this);
+	}
+
+	render() {
 		var category = this.props.category;
 		var className = "glyphicon " + (this.state.open ? "glyphicon-minus" : "glyphicon-plus");
 		var list = this.props.issues
@@ -28,18 +32,17 @@ var CategoryList = React.createClass({
 	          {list}
 			</Panel>
 		)
-	},
-	changeCategory: function(issueNumber,category) {
+	}
+
+	changeCategory(issueNumber,category) {
 		if(this.props.onChangeIssueCategory) {
 			this.props.onChangeIssueCategory(issueNumber,category);
 		}
-	},
-	updateNotes: function(issueNumber,notes) {
+	}
+
+	updateNotes(issueNumber,notes) {
 		if(this.props.onChangeIssueNotes) {
 			this.props.onChangeIssueNotes(issueNumber,notes);
 		}
 	}
-
-});
-
-module.exports = CategoryList;
+};
