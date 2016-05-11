@@ -4,6 +4,7 @@ var production = process.env.NODE_ENV === "production";
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     './client/index.jsx'
   ],
   module: {
