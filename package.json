@@ -2,9 +2,11 @@
   "name": "github-tracker",
   "version": "0.0.1",
   "main": "app.js",
+  "private": "true",
   "scripts": {
     "build": "node_modules/.bin/webpack.cmd",
-    "watch": "node_modules/.bin/webpack.cmd -w"
+    "watch": "node_modules/.bin/webpack.cmd -w",
+    "size": "node_modules/.bin/webpack.cmd --json | webpack-bundle-size-analyzer"
   },
   "repository": {
     "type": "git",
