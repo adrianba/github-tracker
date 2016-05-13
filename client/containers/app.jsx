@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import AppUI from './appui.jsx'
-import { changeIssueData, changeCurrentRepo } from './actions.jsx';
+import AppUI from '../components/appui.jsx'
+import { changeIssueData, changeCurrentRepo } from '../actions/issues.jsx';
 
 const mapStateToProps = (state) => ({
     repos: state.repolist,

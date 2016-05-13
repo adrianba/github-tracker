@@ -1,8 +1,8 @@
 import React from 'react';
-import Notes from './notes.jsx';
 import Collapse from 'react-bootstrap/lib/Collapse';
 import Panel from 'react-bootstrap/lib/Panel';
-import safeMarkdown from './safe-markdown.jsx';
+import Notes from '../notes.jsx';
+import safeMarkdown from '../lib/safe-markdown.jsx';
 
 const LabelBadge = ({label}) => {
 	return (

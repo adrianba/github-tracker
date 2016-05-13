@@ -1,6 +1,6 @@
 import React from 'react';
-import IssueTitle from './issuetitle.jsx';
-import IssueInfo from './issueinfo.jsx';
+import IssueTitle from './components/issuetitle.jsx';
+import IssueInfo from './components/issueinfo.jsx';
 
 export default class Issue extends React.Component {
 	constructor(...args) {

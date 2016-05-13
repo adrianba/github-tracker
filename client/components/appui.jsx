@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import RepoPicker from './repopicker.jsx';
-import CategoryList from './categorylist.jsx';
+import RepoPicker from '../repopicker.jsx';
+import CategoryList from '../categorylist.jsx';
 
 const AppUI = (props) => {
 	//document.body.className = props.isLoading ? "wait-cursor" : "";
