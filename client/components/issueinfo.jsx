@@ -1,7 +1,7 @@
 import React from 'react';
 import Collapse from 'react-bootstrap/lib/Collapse';
 import Panel from 'react-bootstrap/lib/Panel';
-import Notes from '../notes.jsx';
+import Notes from '../containers/notes.jsx';
 import safeMarkdown from '../lib/safe-markdown.jsx';
 
 const LabelBadge = ({label}) => {
@@ -26,5 +26,5 @@ const IssueDetails = (props) =>
 export default ({issue,open,children,onUpdateNotes}) =>
 	<Panel header={children} bsStyle="info" style={{marginBottom:"10px"}}>
 		<IssueDetails open={open} issue={issue} />
-        <Notes notes={issue.tracker.notes} onUpdate={onUpdateNotes} />
+        <Notes id={issue.number} notes={issue.tracker.notes} />
 	</Panel>;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import CategoryPicker from '../categorypicker.jsx';
+import CategoryPicker from '../containers/categorypicker.jsx';
 
 const PullRequestIcon = () => 
 	<svg xmlns="http://www.w3.org/2000/svg" style={{verticalAlign:"text-bottom"}} aria-hidden="true" viewBox="0 0 12 16" height="20" width="15" version="1.1"><path d="M 11 11.28 c 0 -1.73 0 -6.28 0 -6.28 c -0.03 -0.78 -0.34 -1.47 -0.94 -2.06 s -1.28 -0.91 -2.06 -0.94 c 0 0 -1.02 0 -1 0 V 0 L 4 3 l 3 3 V 4 h 1 c 0.27 0.02 0.48 0.11 0.69 0.31 s 0.3 0.42 0.31 0.69 v 6.28 c -0.59 0.34 -1 0.98 -1 1.72 c 0 1.11 0.89 2 2 2 s 2 -0.89 2 -2 c 0 -0.73 -0.41 -1.38 -1 -1.72 Z m -1 2.92 c -0.66 0 -1.2 -0.55 -1.2 -1.2 s 0.55 -1.2 1.2 -1.2 s 1.2 0.55 1.2 1.2 s -0.55 1.2 -1.2 1.2 Z M 4 3 c 0 -1.11 -0.89 -2 -2 -2 S 0 1.89 0 3 c 0 0.73 0.41 1.38 1 1.72 c 0 1.55 0 5.56 0 6.56 c -0.59 0.34 -1 0.98 -1 1.72 c 0 1.11 0.89 2 2 2 s 2 -0.89 2 -2 c 0 -0.73 -0.41 -1.38 -1 -1.72 V 4.72 c 0.59 -0.34 1 -0.98 1 -1.72 Z m -0.8 10 c 0 0.66 -0.55 1.2 -1.2 1.2 s -1.2 -0.55 -1.2 -1.2 s 0.55 -1.2 1.2 -1.2 s 1.2 0.55 1.2 1.2 Z m -1.2 -8.8 c -0.66 0 -1.2 -0.55 -1.2 -1.2 s 0.55 -1.2 1.2 -1.2 s 1.2 0.55 1.2 1.2 s -0.55 1.2 -1.2 1.2 Z" /></svg>;
@@ -40,7 +40,7 @@ const IssueTitle = ({issue,open,onExpandCollapse,onChangeCategory}) =>
 		<span style={{minWidth:"120px",textAlign:"right"}}>
 			<ExpandCollapseButton open={open} onClick={onExpandCollapse} />
 	        &nbsp;
-	        <CategoryPicker id={issue.number} category={issue.tracker.category} onPick={onChangeCategory} />
+	        <CategoryPicker id={issue.number} category={issue.tracker.category} />
 	    </span>
 	</div>;
 

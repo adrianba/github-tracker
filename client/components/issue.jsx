@@ -1,13 +1,11 @@
 import React from 'react';
-import IssueTitle from './components/issuetitle.jsx';
-import IssueInfo from './components/issueinfo.jsx';
+import IssueTitle from './issuetitle.jsx';
+import IssueInfo from './issueinfo.jsx';
 
 export default class Issue extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.state = { open:false };
-		this.changeCategory = this.changeCategory.bind(this);
-		this.updateNotes = this.updateNotes.bind(this);
 		this.toggleOpen = this.toggleOpen.bind(this);
 	}
 
@@ -29,25 +27,13 @@ export default class Issue extends React.Component {
 
 	render() {
 		return (
-			<IssueInfo issue={this.props.issue} open={this.state.open} onUpdateNotes={this.updateNotes}>
-				<IssueTitle issue={this.props.issue} open={this.state.open} onExpandCollapse={this.toggleOpen} onChangeCategory={this.changeCategory} />
+			<IssueInfo issue={this.props.issue} open={this.state.open}>
+				<IssueTitle issue={this.props.issue} open={this.state.open} onExpandCollapse={this.toggleOpen} />
 			</IssueInfo>
 		);
 	}
 
 	toggleOpen() {
 		this.setState({ open: !this.state.open });
-	}
-
-	changeCategory(category) {
-		if(this.props.onChangeCategory) {
-			this.props.onChangeCategory(category);
-		}
-	}
-
-	updateNotes(notes) {
-		if(this.props.onUpdateNotes) {
-			this.props.onUpdateNotes(notes);
-		}
 	}
 };

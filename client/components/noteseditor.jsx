@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/lib/Button';
 import Well from 'react-bootstrap/lib/Well';
-import safeMarkdown from './lib/safe-markdown.jsx';
+import safeMarkdown from '../lib/safe-markdown.jsx';
 
 const EditButton = ({onClick}) =>
 	<p>
@@ -16,7 +16,7 @@ const EditButton = ({onClick}) =>
 const ReadNotes = ({notes}) =>
 	<Well bsSize="small" dangerouslySetInnerHTML={safeMarkdown(notes ? notes : "_no notes_")} />;
 
-export default class Notes extends React.Component {
+class NotesEditor extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.state = { editing:false, notes:this.props.notes };
@@ -51,3 +51,10 @@ export default class Notes extends React.Component {
 		this.setState({notes:event.target.value});
 	}
 };
+
+NotesEditor.PropTypes = {
+	notes: PropTypes.string.isRequired,
+	onUpdate: PropTypes.func.isRequired
+};
+
+export default NotesEditor;
