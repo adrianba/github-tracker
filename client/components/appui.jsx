@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react';
 import axios from 'axios';
 import RepoPicker from '../containers/repopicker.jsx';
-import CategoryList from './categorylist.jsx';
+import Category from '../containers/category.jsx';
 
 const AppUI = (props) => {
 	//document.body.className = props.isLoading ? "wait-cursor" : "";
 	var list;
 
-	if(props.issues) {
-		var categories = ["ready","close","high","medium","low","not set"];
-		list = categories.map(c => <CategoryList key={c} category={c}
-			issues={props.issues}
-		/>);
+	if(props.issuesLoaded) {
+		list = props.categories.map(c => <Category key={c} category={c} />);
 	} else {
 		list = "Loading...";
 	}
@@ -29,7 +26,8 @@ const AppUI = (props) => {
 
 AppUI.PropTypes = {
 	reposLoaded: PropTypes.bool.isRequired,
-	user: PropTypes.string
+	user: PropTypes.string,
+	categories: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default AppUI;

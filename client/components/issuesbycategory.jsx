@@ -9,7 +9,7 @@ const ExpandCollapseButton = ({open,onClick}) =>
       <Glyphicon glyph={open ? "minus" : "plus"} />
     </Button>;
 
-export default class CategoryList extends React.Component {
+export default class IssuesByCategory extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.state = { open:true };
@@ -17,15 +17,12 @@ export default class CategoryList extends React.Component {
 	}
 
 	render() {
-		var category = this.props.category;
-		var list = this.props.issues
-			.filter(issue => issue.tracker.category===category)
-			.map(issue => <Issue key={issue.number} issue={issue} />);
-		if(list.length===0) return null;
+		if(this.props.issues.length===0) return null;
+		var list = this.props.issues.map(issue => <Issue key={issue.number} issue={issue} />);
 		var title = <h3>
 			<ExpandCollapseButton open={this.state.open} onClick={this.toggleOpen} />
 			&nbsp;
-			{category} ({list.length})
+			{this.props.category} ({list.length})
 		</h3>;
 
 		return (

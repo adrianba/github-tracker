@@ -16,5 +16,7 @@ let store = createStore(
 	)
 );
 
-ReactDOM.render(<Provider store={store}><TheApp /></Provider>, document.getElementById('app'));
+let app = <Provider store={store}><TheApp /></Provider>;
+
+ReactDOM.render(app, document.getElementById('app'));
 store.dispatch(fetchRepos());

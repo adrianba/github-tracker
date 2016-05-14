@@ -5,7 +5,7 @@ import { changeIssueData } from '../actions/issues.jsx';
 const mapStateToProps = (state, ownProps) => ({
 	id: 'category' + ownProps.id,
 	current: ownProps.category,
-	options: ["not set","ready","close","high","medium","low"]
+	options: state.categories
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

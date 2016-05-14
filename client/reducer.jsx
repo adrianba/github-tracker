@@ -1,4 +1,8 @@
-const reducer = (state = [], action) => {
+const initialState = {
+	categories: ["ready","close","high","medium","low","not set"]
+};
+
+const reducer = (state = initialState, action) => {
 	console.log(action.type);
 	switch(action.type) {
 		case 'REPOS_LOAD_START':
