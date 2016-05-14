@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
-import reducer from './reducer.jsx';
+import reducer from './reducers/index.jsx';
 import TheApp from './containers/app.jsx'
 import { fetchRepos } from './actions/repos.jsx';
 //import Perf from 'react-addons-perf';

@@ -4,16 +4,14 @@ import { changeCurrentRepo } from '../actions/issues.jsx';
 
 const mapStateToProps = (state) => ({
 	id: 'repopicker',
-	current: state.currentRepo,
-	options: state.repolist
+	current: state.repos.currentRepo,
+	options: state.repos.list
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onSelect: (currentRepo) => {
-			if(currentRepo!==ownProps.currentRepo) {
-				dispatch(changeCurrentRepo(currentRepo));
-			}
+			dispatch(changeCurrentRepo(currentRepo));
 		}
 	}
 };

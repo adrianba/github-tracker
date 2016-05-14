@@ -57,7 +57,10 @@ const updateCurrentRepo = (currentRepo) => {
 };
 
 export const changeCurrentRepo = (currentRepo) => {
-	return dispatch => {
+	return (dispatch,getState) => {
+		if(getState().repos.currentRepo===currentRepo) {
+			return;
+		}
 		dispatch(updateCurrentRepo(currentRepo));
 		dispatch(fetchIssues(currentRepo));
 	};
